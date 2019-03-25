@@ -23,7 +23,7 @@
 		</ul>
 		<h1 class="title">最新音乐</h1>
 		<ul class="mu_new">
-			<li v-for="newsgs in newsg">
+			<li @click="openSong(newsgs.id)" v-for="newsgs in newsg">
 				<div class="mu_newFl">
 					<h1>{{newsgs.name}}</h1>
 					<p><i></i>{{newsgs.song.album.artists[0].name}} - {{newsgs.name}}</p>
@@ -66,6 +66,11 @@
 			.catch(res=>{
 				console.log(res)
 			})
+		},
+		methods:{
+			openSong(id){
+				this.$router.push({name:'song',query:{"id":id}})
+			}
 		}
 	}
 </script>

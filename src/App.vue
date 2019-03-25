@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-		<ul>
+		<ul v-if="isShow">
 			<li v-for="tit in titleData">
 				<div @click="netClass(tit)" :class="active == tit.index?'tabtxt tit':'tabtxt'"><em>
 			<router-link :to="tit.netUrl">{{tit.name}}</router-link>
 			</em></div></li>
 		</ul>
-    <router-view/>
+		<transition :name="transitionName">
+			<router-view/>
+		</transition>
   </div>
 </template>
 
@@ -21,12 +23,28 @@ export default {
 			  {"index":'3',"name":"搜索","netUrl":"/sea"},
 			  {"index":'4',"name":"我的","netUrl":"/login"}
 		  ],
-		  active:"1"
+		  active:"1",
+		  "transitionName":"trun-on",
+		  "isShow":true
 	  }
   },
   methods:{
 	  netClass(item){
 		  this.active = item.index
+	  }
+  },
+  watch:{
+	  '$route'(to, from){
+		if(to.meta.index == 77){
+			this.isShow = false
+		}else{
+			this.isShow = true
+		}
+		if(from.meta.index > to.meta.index){
+  			this.transitionName = 'turn-off'
+  		}else{
+  			this.transitionName = 'turn-on'
+  		}
 	  }
   }
 }
@@ -74,5 +92,29 @@ export default {
 	.tabtxt>em{
 		    text-overflow: ellipsis;
 				white-space: nowrap;
+	}
+	/* 页面跳转动画 */
+	.turn-on-enter {
+	transform: translate3d(100%, 0, 0);
+	}
+	.turn-on-leave-to {
+	transform: translate3d(-100%, 0, 0); 
+	}
+	.turn-on-enter-active,
+	.turn-on-leave-active {
+	transition: transform 0.4s ease;
+	}
+	.turn-off-enter {
+	transform: translate3d(-100%, 0, 0); 
+	}
+	.turn-off-leave-to {
+	transform: translate3d(100%, 0, 0);
+	}
+	.turn-off-enter-active,
+	.turn-off-leave-active {
+	transition: transform 0.4s ease;
+	}
+	.turn-off-leave-active {
+	z-index: 2;
 	}
 </style>

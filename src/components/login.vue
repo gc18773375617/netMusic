@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="app">
 		<p>手机号: <input v-model="user" type="text"></p>
 		<p>密码 : <input v-model="pass" type="password"></p>
 		<button @click="netLogin()">提交</button>
@@ -36,5 +36,9 @@
 	}
 </script>
 
-<style>
+<style scoped="scoped">
+	.app{
+		position: fixed;
+		width: 100%;
+	}
 </style>

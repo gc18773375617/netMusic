@@ -20,19 +20,19 @@ export default new Router({
 			path:'/login',
 			name:'login',
 			component:login,
-			meta:{index:2}
+			meta:{index:4}
 		},
 		{
 			path:'/hot',
 			name:'hot',
 			component:hot,
-			meta:{index:3}
+			meta:{index:2}
 		},
 		{
 			path:'/sea',
 			name:'sea',
 			component:sea,
-			meta:{index:4}
+			meta:{index:3}
 		},
 		{
 			path:'/song',

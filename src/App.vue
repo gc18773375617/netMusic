@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-		<ul v-if="isShow">
-			<li v-for="tit in titleData">
-				<div @click="netClass(tit)" :class="active == tit.index?'tabtxt tit':'tabtxt'"><em>
-			<router-link :to="tit.netUrl">{{tit.name}}</router-link>
-			</em></div></li>
-		</ul>
+	  <transition name="fade">
+		  <ul v-if="isShow">
+		  	<li v-for="tit in titleData">
+		  		<div @click="netClass(tit)" :class="active == tit.index?'tabtxt tit':'tabtxt'"><em>
+		  	<router-link :to="tit.netUrl">{{tit.name}}</router-link>
+		  	</em></div></li>
+		  </ul>
+	  </transition>
 		<transition :name="transitionName">
 			<router-view/>
 		</transition>
@@ -25,7 +27,8 @@ export default {
 		  ],
 		  active:"1",
 		  "transitionName":"trun-on",
-		  "isShow":true
+		  "isShow":true,
+		  "animo":"slide-down"
 	  }
   },
   methods:{
@@ -45,6 +48,9 @@ export default {
   		}else{
   			this.transitionName = 'turn-on'
   		}
+		if(to.meta.index == 77 || from.meta.index == 77){
+			this.transitionName = 'sdf'
+		}
 	  }
   }
 }
@@ -116,5 +122,11 @@ export default {
 	}
 	.turn-off-leave-active {
 	z-index: 2;
+	}
+	.fade-enter-active, .fade-leave-active {
+	  transition: opacity .5s;
+	}
+	.fade-enter, .fade-leave-to {
+	  opacity: 0;
 	}
 </style>

@@ -14,6 +14,12 @@
 		<div class="songInfo">
 			<h1>《{{song.name}}》 - {{auth.name}}</h1>
 		</div>
+		<div class="songL">
+			<ul class="songL_ul">
+				<li class="songl_select">谁离开的肌肤了考四六级的法律</li>
+				<li>的萨芬撒地方是法撒旦发</li>
+			</ul>
+		</div>
 		<div class="songCon">
 			<div class="songCen">
 				<div class="btn">
@@ -22,10 +28,13 @@
 					<a class="nxt" href="javascript:;"></a>
 				</div>
 				<div class="pbar">
-					<div class="songBar">
+					<div @click="conJd" class="songBar">
 						<div class="songJd">
 							<span></span>
 						</div>
+					</div>
+					<div class="netTime">
+						<em>{{nowTime}}</em> / {{duTime}}
 					</div>
 				</div>
 			</div>
@@ -48,39 +57,56 @@
 				"netClass":"disc_img",
 				"song":{},
 				"auth":[],
-				"playBtnClass":"playing"
+				"playBtnClass":"playing",
+				"nowTime":"00:00",
+				"duTime":"xx:xx",
+				"songTime":"",
+				"inver":null
 			}
 		},
 		mounted() {
+			clearInterval(this.inver)
 			const songId = this.$router.currentRoute.query.id;
-			setTimeout(()=>{
-				this.axios.get("/api/song/url?id="+songId)
-				.then(res=>{
-					this.songSrc = res.data.data[0].url
-				})
-				.catch(err=>{
-					console.log(err)
-				});
-				this.axios.get("/api/song/detail?ids="+songId)
-				.then(res=>{
-					this.backCss.backgroundImage = "url("+res.data.songs[0].al.picUrl+")";
-					this.backShow = true;
-					this.imgSrc = res.data.songs[0].al.picUrl;
-					this.song = res.data.songs[0].al;
-					this.auth = res.data.songs[0].ar[0];
-				})
-				.catch(err=>{
-					console.log(err)
-				});
-				this.axios.get("/api/lyric?id="+songId)
-				.then(res=>{
-					console.log(res)
-				})
-				.catch(err=>{
-					console.log(err)
-				})
-			},500)
-			console.log(document.getElementById('songPlay').duration)
+			this.axios.get("/api/song/url?id="+songId)
+			.then(res=>{
+				this.songSrc = res.data.data[0].url
+			})
+			.catch(err=>{
+				console.log(err)
+			});
+			this.axios.get("/api/song/detail?ids="+songId)
+			.then(res=>{
+				this.backCss.backgroundImage = "url("+res.data.songs[0].al.picUrl+")";
+				this.backShow = true;
+				this.imgSrc = res.data.songs[0].al.picUrl;
+				this.song = res.data.songs[0].al;
+				this.auth = res.data.songs[0].ar[0];
+				const aud = document.getElementById("songPlay");
+				setTimeout(()=>{
+					this.getcur();
+					this.inver = setInterval(this.auPlay,1000);
+					this.songTime = document.getElementById("songPlay").duration
+				},800);
+			})
+			.catch(err=>{
+				console.log(err)
+			});
+			this.axios.get("/api/lyric?id="+songId)
+			.then(res=>{
+				console.log(res)
+				var ly = res.data.lrc.lyric;
+				var regR = /\r/g;
+				var regN = /\n/g;
+				ly = ly.replace(regR,"\\r").replace(regN,"\\n");
+				ly = ly.split("\\n")
+				console.log(ly)
+			})
+			.catch(err=>{
+				console.log(err)
+			});
+		},
+		destroyed:function(){
+			clearInterval(this.inver);
 		},
 		methods: {
 			getDeg(el) {
@@ -95,6 +121,20 @@
 					this.netPlay = false;
 					this.playBtnClass = "playing"
 				}
+			},
+			auPlay(){
+				var audio = document.getElementById("songPlay");
+				this.nowTime = parseInt(audio.currentTime/60)+":"+parseInt(audio.currentTime%60)
+				document.getElementsByClassName("songJd")[0].style.width = ((audio.currentTime/audio.duration)*100)+"%";
+			},
+			getcur(){
+				this.duTime = parseInt(document.getElementById("songPlay").duration/60)+":"+parseInt(document.getElementById("songPlay").duration%60);
+			},
+			conJd(el){
+				const dio = document.getElementById("songPlay");
+				const ele = (window.getComputedStyle(document.getElementsByClassName("songBar")[0]).width).slice(0,-2)
+				document.getElementsByClassName("songJd")[0].style.width = el.offsetX/ele+"%";
+				dio.currentTime = this.songTime*(el.offsetX/ele);
 			}
 		},
 	}
@@ -215,13 +255,16 @@
 		z-index: 10;
 	}
 	.songCen{
-		width:750px;
+		width:100%;
 		height: 100%;
 		margin: auto;
 	}
 	.btn{
 		padding-top: 12px;
-		width: 116px;
+		width: 31.3%;
+		height: 100%;
+		float: left;
+		position: relative;
 	}
 	.btn>a{
 		display: block;
@@ -235,32 +278,103 @@
 	}
 	.btn>.prev{
 		background-position: 0 -130px;
+		position: absolute;
+		left: 3px;
+		top: 16px;
+		margin: auto;
 	}
 	.btn>.played{
 		width: 36px;
 		height: 36px;
 		margin-top: 0;
 		background-position: -40px -204px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin: -15px 0 0 -18px;
 	}
 	.btn>.playing{
 		width: 36px;
 		height: 36px;
 		margin-top: 0;
 		background-position: -40px -165px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin: -15px 0 0 -18px;
 	}
 	.btn>.nxt{
 		background-position: -80px -130px;
+		position: absolute;
+		right: 3px;
+		top: 16px;
+		margin: auto;
 	}
 	.pbar{
-		width: 627px;
+		width: 63%;
 		height: 100%;
+		padding-top: 21px;
 		float: right;
+		margin-right: 7px;
 	}
 	.songBar{
-		width: 493px;
+		width: 100%;
 		height: 9px;
 		position: relative;
-		background-position: right 0;
 		background: url(../static/img/statbar.png)no-repeat 0 9999px;
+		background-position: 0 0;
+		background-size: 100% 1288.88%;		
+	}
+	.songJd{
+		width: 1%;
+		height: 100%;
+		background: url(../static/img/statbar.png)no-repeat 0 9999px;
+		background-position: left -66px;
+		position: relative;
+	}
+	.songJd>span{
+		position: absolute;
+		top: -7px;
+		right: -13px;
+		width: 22px;
+		height: 24px;
+		margin-left: -11px;
+		background: url(../static/img/iconall.png)no-repeat;
+		background-position: 0 -250px;
+	}
+	.netTime{
+		position: absolute;
+		font-size: 12px;
+		bottom: 2px;
+		right: 7px;
+		color: #797979;
+		text-shadow: 0 1px 0 #121212;
+	}
+	.netTime>em{
+		color: #a1a1a1;
+		font-size: 12px;
+	}
+	.songL{
+		width: 100%;
+		padding: 0 35px;
+		height: 56px;
+		margin-top: 14px;
+		position: relative;
+		overflow: hidden;
+	}
+	.songL_ul{
+		width: 100%;
+	}
+	.songL_ul>li{
+		width: 100%;
+		height: 28px;
+		font-size: 16px;
+		color: rgba(255,255,255,0.6);
+		text-align: center;
+		font-size: ;
+		padding-bottom: 8px;
+	}
+	.songL_ul>.songl_select{
+		color: #FFFFFF;
 	}
 </style>

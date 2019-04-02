@@ -16,8 +16,7 @@
 		</div>
 		<div class="songL">
 			<ul class="songL_ul">
-				<li class="songl_select">谁离开的肌肤了考四六级的法律</li>
-				<li>的萨芬撒地方是法撒旦发</li>
+				<li v-for="value in lrc">{{value}}</li>
 			</ul>
 		</div>
 		<div class="songCon">
@@ -61,11 +60,18 @@
 				"nowTime":"00:00",
 				"duTime":"xx:xx",
 				"songTime":"",
-				"inver":null
+				"inver":null,
+				"lrc":[],
+				"lrcTime":[],
+				"lrcNum":0,
+				"lrcinve":""
 			}
 		},
 		mounted() {
-			clearInterval(this.inver)
+			this.$store.commit("changeShow");
+			console.log(this.$store.state)
+			clearInterval(this.inver);
+			clearInterval(this.lrcinve);
 			const songId = this.$router.currentRoute.query.id;
 			this.axios.get("/api/song/url?id="+songId)
 			.then(res=>{
@@ -82,10 +88,12 @@
 				this.song = res.data.songs[0].al;
 				this.auth = res.data.songs[0].ar[0];
 				const aud = document.getElementById("songPlay");
+				
 				setTimeout(()=>{
 					this.getcur();
 					this.inver = setInterval(this.auPlay,1000);
 					this.songTime = document.getElementById("songPlay").duration
+					this.lrcinve = setInterval(this.lrcRoll,500)
 				},800);
 			})
 			.catch(err=>{
@@ -93,13 +101,20 @@
 			});
 			this.axios.get("/api/lyric?id="+songId)
 			.then(res=>{
-				console.log(res)
 				var ly = res.data.lrc.lyric;
 				var regR = /\r/g;
 				var regN = /\n/g;
 				ly = ly.replace(regR,"\\r").replace(regN,"\\n");
 				ly = ly.split("\\n")
-				console.log(ly)
+				var str = /\[[\d\D]*\]/.exec(ly[1])
+				ly.forEach((item,i)=>{
+					this.lrcTime[i] = /\[[\d\D]*\]/.exec(item);
+					if((this.lrcTime[i])!= null){
+						this.lrcTime[i] = ((this.lrcTime[i])[0]).slice(1,-1);
+						this.lrcTime[i] = Number(((this.lrcTime[i]).split(":"))[0]*60)+Number(((this.lrcTime[i]).split(":"))[1])
+					}
+					this.lrc[i] = item.replace(/\[[\d\D]*\]/g,"");
+				});
 			})
 			.catch(err=>{
 				console.log(err)
@@ -107,6 +122,7 @@
 		},
 		destroyed:function(){
 			clearInterval(this.inver);
+			clearInterval(this.lrcinve);
 		},
 		methods: {
 			getDeg(el) {
@@ -135,6 +151,14 @@
 				const ele = (window.getComputedStyle(document.getElementsByClassName("songBar")[0]).width).slice(0,-2)
 				document.getElementsByClassName("songJd")[0].style.width = el.offsetX/ele+"%";
 				dio.currentTime = this.songTime*(el.offsetX/ele);
+			},
+			lrcRoll(){
+				const currtime = document.getElementById("songPlay").currentTime
+				if(currtime >= (this.lrcTime[this.lrcNum+1])||this.lrcTime[this.lrcNum] == null||this.lrcTime[this.lrcNum] == undefined||this.lrcTime[this.lrcNum] ==""||this.lrcTime[this.lrcNum] == NaN){
+					this.lrcNum++;
+				};
+				document.getElementsByClassName("songL_ul")[0].style.top = "-"+50*this.lrcNum+"px";
+				(document.getElementsByClassName("songL_ul")[0].children)[this.lrcNum].className = "songl_select";
 			}
 		},
 	}
@@ -313,7 +337,7 @@
 	.pbar{
 		width: 63%;
 		height: 100%;
-		padding-top: 21px;
+		padding-top: 26px;
 		float: right;
 		margin-right: 7px;
 	}
@@ -357,22 +381,27 @@
 	.songL{
 		width: 100%;
 		padding: 0 35px;
-		height: 56px;
+		height: 100px;
 		margin-top: 14px;
 		position: relative;
 		overflow: hidden;
 	}
 	.songL_ul{
 		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		transition: all 0.5s; 
 	}
 	.songL_ul>li{
-		width: 100%;
-		height: 28px;
+		    width: 100%;
+		height: 50px;
 		font-size: 16px;
 		color: rgba(255,255,255,0.6);
 		text-align: center;
-		font-size: ;
+		line-height: 25px;
 		padding-bottom: 8px;
+		overflow: hidden;
 	}
 	.songL_ul>.songl_select{
 		color: #FFFFFF;

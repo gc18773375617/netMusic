@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 	  <transition name="fade">
-		  <ul v-if="isShow">
+		  <ul id="head_ul" v-if="isShow">
 		  	<li v-for="tit in titleData">
 		  		<div @click="netClass(tit)" :class="active == tit.index?'tabtxt tit':'tabtxt'"><em>
 		  	<router-link :to="tit.netUrl">{{tit.name}}</router-link>
@@ -52,6 +52,16 @@ export default {
 			this.transitionName = 'sdf'
 		}
 	  }
+  },
+  mounted(){
+	  if(this.$route.meta.index == 77){
+		  this.isShow = false
+	  }else{
+		  this.isShow = true;
+	  }
+	  if(this.$route.meta.index <= 4){
+		  this.active = this.$route.meta.index;
+	  }
   }
 }
 </script>
@@ -90,8 +100,8 @@ export default {
 		content: "";
 		position: absolute;
 		width: 100%;
-		height: 1px;
-		bottom: 1px;
+		height: 2px;
+		bottom: 0px;
 		left: 0;
 		background-color: #d33a31;
 	}

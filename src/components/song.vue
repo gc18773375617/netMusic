@@ -69,7 +69,6 @@
 		},
 		mounted() {
 			this.$store.commit("changeShow");
-			console.log(this.$store.state)
 			clearInterval(this.inver);
 			clearInterval(this.lrcinve);
 			const songId = this.$router.currentRoute.query.id;
@@ -88,7 +87,6 @@
 				this.song = res.data.songs[0].al;
 				this.auth = res.data.songs[0].ar[0];
 				const aud = document.getElementById("songPlay");
-				
 				setTimeout(()=>{
 					this.getcur();
 					this.inver = setInterval(this.auPlay,1000);
@@ -153,8 +151,8 @@
 				dio.currentTime = this.songTime*(el.offsetX/ele);
 			},
 			lrcRoll(){
-				const currtime = document.getElementById("songPlay").currentTime
-				if(currtime >= (this.lrcTime[this.lrcNum+1])||this.lrcTime[this.lrcNum] == null||this.lrcTime[this.lrcNum] == undefined||this.lrcTime[this.lrcNum] ==""||this.lrcTime[this.lrcNum] == NaN){
+				const currtime = document.getElementById("songPlay").currentTime;
+				if(currtime >= (this.lrcTime[this.lrcNum+1])||this.lrcTime[this.lrcNum] == null||this.lrcTime[this.lrcNum] == undefined||this.lrcTime[this.lrcNum] ==""||isNaN(this.lrcTime[this.lrcNum])){
 					this.lrcNum++;
 				};
 				document.getElementsByClassName("songL_ul")[0].style.top = "-"+50*this.lrcNum+"px";

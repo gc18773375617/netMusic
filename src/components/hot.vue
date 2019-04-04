@@ -36,7 +36,6 @@
 		mounted(){
 			this.axios.get("/api/top/list?idx=1")
 			.then(res=>{
-				console.log(res)
 				var ctime = new Date(res.data.playlist.trackUpdateTime)
 				this.uPTime = ctime.getMonth()+1+"月"+ctime.getDay()+"日";
 				this.songP = res.data.playlist.tracks;

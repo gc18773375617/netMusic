@@ -38,7 +38,8 @@ export default {
   },
   watch:{
 	  '$route'(to, from){
-		if(to.meta.index == 77){
+		  this.active = to.meta.index
+		if(to.meta.index == 77||to.meta.index == 78){
 			this.isShow = false
 		}else{
 			this.isShow = true
@@ -54,7 +55,7 @@ export default {
 	  }
   },
   mounted(){
-	  if(this.$route.meta.index == 77){
+	  if(this.$route.meta.index == 77||this.$route.meta.index == 78){
 		  this.isShow = false
 	  }else{
 		  this.isShow = true;

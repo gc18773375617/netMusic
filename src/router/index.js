@@ -5,6 +5,7 @@ import login from '@/components/login'
 import hot from '@/components/hot'
 import sea from '@/components/search'
 import song from '@/components/song'
+import artist from '@/components/artist'
 
 Vue.use(Router)
 
@@ -39,6 +40,12 @@ export default new Router({
 			name:'song',
 			component:song,
 			meta:{index:77}
-		}
+		},
+		{
+			path:'/artist',
+			name:'artist',
+			component:artist,
+			meta:{index:78}
+		},
   ]
 })

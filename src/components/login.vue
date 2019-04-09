@@ -1,8 +1,9 @@
 <template>
 	<div class="app">
-		<p>手机号: <input v-model="user" type="text"></p>
+		<!-- <p>手机号: <input v-model="user" type="text"></p>
 		<p>密码 : <input v-model="pass" type="password"></p>
-		<button @click="netLogin()">提交</button>
+		<button @click="netLogin()">提交</button> -->
+		暂未开发
 	</div>
 </template>
 
@@ -40,5 +41,9 @@
 	.app{
 		position: fixed;
 		width: 100%;
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

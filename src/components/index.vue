@@ -3,7 +3,7 @@
 		<h1 class="title">推荐歌单</h1>
 		<ul class="gd_ul">
 			<div class="gd_line">
-				<li v-for="tjgds in tjgd">
+				<li @click="openGd(tjgds.id)" v-for="tjgds in tjgd">
 					<div>
 						<span>{{(tjgds.playCount/10000).toFixed(1)}}万</span>
 						<img :src="tjgds.picUrl" alt="">
@@ -12,7 +12,7 @@
 				</li>
 			</div>
 			<div class="gd_line">
-				<li v-for="tjgds in tjgdl">
+				<li @click="openGd(tjgds.id)" v-for="tjgds in tjgdl">
 					<div>
 						<span>{{(tjgds.playCount/1000).toFixed(1)}}万</span>
 						<img :src="tjgds.picUrl" alt="">
@@ -70,6 +70,9 @@
 		methods:{
 			openSong(id){
 				this.$router.push({name:'song',query:{"id":id}})
+			},
+			openGd(id){
+				this.$router.push({name:'gd',query:{"id":id}})
 			}
 		}
 	}

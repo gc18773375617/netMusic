@@ -11,7 +11,7 @@
 			<div v-if="isResult" @click="seaRe(hots.first)" v-for="hots in hotSeach">{{hots.first}}</div>
 			<ul v-if="!isResult" class="seach_result">
 				<h1>最佳匹配</h1>
-				<li v-for="seaMv in seachMv" class="sea_mv">
+				<li @click="openMv(seaMv.id)" v-for="seaMv in seachMv" class="sea_mv">
 					<figure>
 						<img :src="seaMv.cover" alt="">
 					</figure>
@@ -80,14 +80,14 @@
 		},
 		methods: {
 			sea(msg) {
-				if(msg == ""){
-					return;
-				}
 				if(this.msg != ""){
 					this.listShow = true;
 				}else{
 					this.listShow = false;
 					this.isResult = true;
+				}
+				if(msg == ""){
+					return;
 				}
 				this.axios.get("/api/search/suggest?keywords="+msg)
 				.then(res=>{
@@ -128,6 +128,9 @@
 			},
 			openArt(id){
 				this.$router.push({name:'artist',query:{"id":id}})
+			},
+			openMv(id){
+				this.$router.push({name:'mv',query:{"id":id}})
 			}
 		},
 	}
@@ -294,11 +297,16 @@
 	}
 	.sea_mv>article,.sea_player>article{
 		flex: 1;
+		width: 1%;
 	}
 	.sea_mv>article>p,.sea_player>article>p{
 		font-size: 17px;
 		color: #333333;
 		line-height: 30px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		word-break: normal;
 	}
 	.sea_mv>article>h2{
 		font-size: 12px;

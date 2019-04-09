@@ -6,6 +6,8 @@ import hot from '@/components/hot'
 import sea from '@/components/search'
 import song from '@/components/song'
 import artist from '@/components/artist'
+import mv from '@/components/mv'
+import gd from '@/components/gd'
 
 Vue.use(Router)
 
@@ -47,5 +49,17 @@ export default new Router({
 			component:artist,
 			meta:{index:78}
 		},
+		{
+			path:'/mv',
+			name:'mv',
+			component:mv,
+			meta:{index:79}
+		},
+		{
+			path:'/gd',
+			name:'gd',
+			component:gd,
+			meta:{index:79}
+		}
   ]
 })

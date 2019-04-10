@@ -72,6 +72,7 @@
 		mounted(){
 			this.axios.get("/api/search/hot")
 			.then(res=>{
+				console.log(res)
 				this.hotSeach = res.data.result.hots
 			})
 			.catch(err=>{

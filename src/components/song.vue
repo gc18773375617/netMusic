@@ -91,7 +91,7 @@
 					this.getcur();
 					this.inver = setInterval(this.auPlay,1000);
 					this.songTime = document.getElementById("songPlay").duration
-					this.lrcinve = setInterval(this.lrcRoll,500)
+					this.lrcinve = setInterval(this.lrcRoll,100)
 				},800);
 			})
 			.catch(err=>{
@@ -148,14 +148,25 @@
 				const dio = document.getElementById("songPlay");
 				const ele = (window.getComputedStyle(document.getElementsByClassName("songBar")[0]).width).slice(0,-2)
 				document.getElementsByClassName("songJd")[0].style.width = el.offsetX/ele+"%";
+				if(dio.currentTime > this.songTime*(el.offsetX/ele)){
+					var backTime = this.songTime*(el.offsetX/ele);
+					this.lrcNum = 0;
+					for(var i=0;i< this.lrcTime.length;i++){
+						if(backTime <= this.lrcTime[i]){
+							this.lrcNum = i;
+							break;
+						}
+					}
+				}
 				dio.currentTime = this.songTime*(el.offsetX/ele);
 			},
 			lrcRoll(){
 				const currtime = document.getElementById("songPlay").currentTime;
-				if(currtime >= (this.lrcTime[this.lrcNum+1])||this.lrcTime[this.lrcNum] == null||this.lrcTime[this.lrcNum] == undefined||this.lrcTime[this.lrcNum] ==""||isNaN(this.lrcTime[this.lrcNum])){
+				if((currtime >= (this.lrcTime[this.lrcNum+1]))||this.lrcTime[this.lrcNum] == null||this.lrcTime[this.lrcNum] == undefined||this.lrcTime[this.lrcNum] ==""||isNaN(this.lrcTime[this.lrcNum])){
 					this.lrcNum++;
-				};
+				}
 				document.getElementsByClassName("songL_ul")[0].style.top = "-"+50*this.lrcNum+"px";
+				(document.getElementsByClassName("songL_ul")[0].children)[this.lrcNum-1].className = "";
 				(document.getElementsByClassName("songL_ul")[0].children)[this.lrcNum].className = "songl_select";
 			}
 		},

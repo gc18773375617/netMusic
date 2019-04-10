@@ -11,7 +11,6 @@
 				<div class="hot_num hot_red">
 					{{(index+1)<10?"0"+(index+1):(index+1)}}
 				</div>
-				<img style="height: 42px;margin-right:10px" :src="songs.al.picUrl" alt="">
 				<div class="mu_newFl">
 					<h1>{{songs.al.name}}</h1>
 					<p><i></i>{{songs.ar[0].name}} - {{songs.al.name}}</p>

@@ -189,9 +189,9 @@
 	}
 	.hotBox h1{
 		font-size: 12px;
-		line-height: 12px;
+		line-height: 17px;
 		color: #666;
-		margin-bottom: 10px;
+		margin-bottom: 7px;
 	}
 	.hotBox>div{
 		display: inline-block;

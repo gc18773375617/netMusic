@@ -1,7 +1,7 @@
 <template>
 	<div class="app">
 		<div class="videoBox">
-			<video controls="controls" v-if="videoShow" :src="videoSrc"></video>
+			<video autoplay="autoplay" controls="controls" v-if="videoShow" :src="videoSrc"></video>
 		</div>
 		
 	</div>

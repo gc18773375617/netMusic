@@ -47,7 +47,7 @@
 			}
 		},
 		mounted() {
-			this.axios('http://127.0.0.1:3000/personalized?limit=6')
+			this.axios('http://106.13.61.56:3000/personalized?limit=6')
 			.then(res=>{
 				this.tjgd.push(res.data.result[0]);
 				this.tjgd.push(res.data.result[1]);
@@ -59,7 +59,7 @@
 			.catch(err=>{
 				console.log(err)
 			});
-			this.axios('http://127.0.0.1:3000/personalized/newsong?limit=10')
+			this.axios('http://106.13.61.56:3000/personalized/newsong?limit=10')
 			.then(res=>{
 				this.newsg = res.data.result;
 			})

@@ -70,7 +70,7 @@
 			}
 		},
 		mounted(){
-			this.axios.get("/api/search/hot")
+			this.axios.get("http://127.0.0.1:3000/search/hot")
 			.then(res=>{
 				console.log(res)
 				this.hotSeach = res.data.result.hots
@@ -90,7 +90,7 @@
 				if(msg == ""){
 					return;
 				}
-				this.axios.get("/api/search/suggest?keywords="+msg)
+				this.axios.get("http://127.0.0.1:3000/search/suggest?keywords="+msg)
 				.then(res=>{
 					this.songs = res.data.result.songs
 				})
@@ -103,7 +103,7 @@
 				if(keymsg == ""){
 					return;
 				}
-				this.axios.get("/api/search/multimatch?keywords="+keymsg)
+				this.axios.get("http://127.0.0.1:3000/search/multimatch?keywords="+keymsg)
 				.then(res=>{
 					console.log(res)
 					this.isResult = false;
@@ -116,7 +116,7 @@
 				.catch(err=>{
 					console.log(err)
 				})
-				this.axios.get("/api/search?keywords="+keymsg)
+				this.axios.get("http://127.0.0.1:3000/search?keywords="+keymsg)
 				.then(res=>{
 					this.seachSo = (res.data.result.songs).slice(0,10)
 				})

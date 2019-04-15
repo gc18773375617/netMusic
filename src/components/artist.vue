@@ -41,7 +41,7 @@
 		},
 		mounted() {
 			const artId = this.$router.currentRoute.query.id;
-			this.axios.get("/api/artists?id="+artId)
+			this.axios.get("http://127.0.0.1:3000/artists?id="+artId)
 			.then(res=>{
 				console.log(res)
 				this.ali = res.data.artist;

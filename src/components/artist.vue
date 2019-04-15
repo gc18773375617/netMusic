@@ -120,7 +120,7 @@
 		height: 15px;
 	}
 	.art_content>.u_down{
-		background: url(../static/img/down.png);
+		background: url(../static/img/download.png);
 		background-position: 50%;
 		background-repeat: no-repeat;
 		background-size: 12px auto;

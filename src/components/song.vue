@@ -72,14 +72,14 @@
 			clearInterval(this.inver);
 			clearInterval(this.lrcinve);
 			const songId = this.$router.currentRoute.query.id;
-			this.axios.get("http://127.0.0.1:3000/song/url?id="+songId)
+			this.axios.get("http://106.13.61.56:3000/song/url?id="+songId)
 			.then(res=>{
 				this.songSrc = res.data.data[0].url
 			})
 			.catch(err=>{
 				console.log(err)
 			});
-			this.axios.get("http://127.0.0.1:3000/song/detail?ids="+songId)
+			this.axios.get("http://106.13.61.56:3000/song/detail?ids="+songId)
 			.then(res=>{
 				this.backCss.backgroundImage = "url("+res.data.songs[0].al.picUrl+")";
 				this.backShow = true;
@@ -97,7 +97,7 @@
 			.catch(err=>{
 				console.log(err)
 			});
-			this.axios.get("http://127.0.0.1:3000/lyric?id="+songId)
+			this.axios.get("http://106.13.61.56:3000/lyric?id="+songId)
 			.then(res=>{
 				var ly = res.data.lrc.lyric;
 				var regR = /\r/g;

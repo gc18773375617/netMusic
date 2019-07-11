@@ -138,11 +138,23 @@
 			},
 			auPlay(){
 				var audio = document.getElementById("songPlay");
-				this.nowTime = parseInt(audio.currentTime/60)+":"+parseInt(audio.currentTime%60)
+				var sencon;
+				if(parseInt(audio.currentTime%60) <= 9){
+					sencon = "0"+parseInt(audio.currentTime%60);
+				}else{
+					sencon = parseInt(audio.currentTime%60);
+				}
+				this.nowTime = parseInt(audio.currentTime/60)+":"+sencon;
 				document.getElementsByClassName("songJd")[0].style.width = ((audio.currentTime/audio.duration)*100)+"%";
 			},
 			getcur(){
-				this.duTime = parseInt(document.getElementById("songPlay").duration/60)+":"+parseInt(document.getElementById("songPlay").duration%60);
+				var secon;
+				if(parseInt(document.getElementById("songPlay").duration%60) <= 9){
+					secon = "0"+parseInt(document.getElementById("songPlay").duration%60);
+				}else{
+					secon = parseInt(document.getElementById("songPlay").duration%60);
+				}
+				this.duTime = parseInt(document.getElementById("songPlay").duration/60)+":"+secon;
 			},
 			conJd(el){
 				const dio = document.getElementById("songPlay");

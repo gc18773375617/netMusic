@@ -16,7 +16,7 @@
 		</div>
 		<div class="songL">
 			<ul class="songL_ul">
-				<li v-for="value in lrc">{{value}}</li>
+				<li v-for="(value,index) in lrc" :key='index'>{{value}}</li>
 			</ul>
 		</div>
 		<div class="songCon">
@@ -87,12 +87,12 @@
 				this.song = res.data.songs[0].al;
 				this.auth = res.data.songs[0].ar[0];
 				const aud = document.getElementById("songPlay");
-				setTimeout(()=>{
+				aud.addEventListener('loadedmetadata',()=>{
 					this.getcur();
 					this.inver = setInterval(this.auPlay,1000);
 					this.songTime = document.getElementById("songPlay").duration
 					this.lrcinve = setInterval(this.lrcRoll,100)
-				},800);
+				})
 			})
 			.catch(err=>{
 				console.log(err)

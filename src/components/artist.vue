@@ -41,7 +41,7 @@
 		},
 		mounted() {
 			const artId = this.$router.currentRoute.query.id;
-			this.axios.get("http://106.13.61.56:3000/artists?id="+artId)
+			this.axios.get("http://121.42.15.67:3000/artists?id="+artId)
 			.then(res=>{
 				console.log(res)
 				this.ali = res.data.artist;

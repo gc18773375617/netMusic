@@ -17,7 +17,7 @@
 		},
 		mounted() {
 			var mv_id = this.$router.currentRoute.query.id;
-			this.axios.get("http://106.13.61.56:3000/mv/url?id="+mv_id)
+			this.axios.get("http://121.42.15.67:3000/mv/url?id="+mv_id)
 			.then(res=>{
 				this.videoSrc = res.data.data.url;
 			})

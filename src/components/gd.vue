@@ -54,7 +54,7 @@
 		},
 		mounted() {
 			var gd_id = this.$router.currentRoute.query.id;
-			this.axios.get("http://106.13.61.56:3000/playlist/detail?id="+gd_id)
+			this.axios.get("http://121.42.15.67:3000/playlist/detail?id="+gd_id)
 			.then(res=>{
 				console.log(res)
 				this.plList = res.data.playlist;

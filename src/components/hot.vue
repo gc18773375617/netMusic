@@ -33,7 +33,7 @@
 			}
 		},
 		mounted(){
-			this.axios.get("http://106.13.61.56:3000/top/list?idx=1")
+			this.axios.get("http://121.42.15.67:3000/top/list?idx=1")
 			.then(res=>{
 				var ctime = new Date(res.data.playlist.trackUpdateTime)
 				this.uPTime = ctime.getMonth()+1+"月"+ctime.getDay()+"日";
